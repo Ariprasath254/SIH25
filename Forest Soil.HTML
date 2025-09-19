@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Forest Soil — Crops, Growth Info & Seed Calculator</title>
+  <style>
+    :root{
+      --accent:#2f7a5b;
+      --muted:#6b7280;
+      --card:#ffffff;
+      --bg:#f6fbf8;
+      --maxw:1100px;
+      --radius:12px;
+    }
+    body{
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background:var(--bg);
+      color:#0f172a;
+      margin:24px;
+      display:flex;
+      justify-content:center;
+    }
+    .container{
+      max-width:var(--maxw);
+      width:100%;
+      background:linear-gradient(180deg,#ffffff, #fbfff9);
+      border-radius:var(--radius);
+      box-shadow:0 10px 30px rgba(16,24,40,0.08);
+      padding:20px;
+    }
+    header{
+      display:flex;
+      gap:16px;
+      align-items:center;
+      margin-bottom:16px;
+    }
+    header img{ width:86px; height:86px; object-fit:cover; border-radius:10px; border:1px solid #e6f1ea;}
+    h1{ margin:0; font-size:20px; color:var(--accent); }
+    p.lead{ margin:6px 0 12px; color:var(--muted); font-size:14px; }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr 360px;
+      gap:18px;
+    }
+
+    .card{
+      background:var(--card);
+      border-radius:10px;
+      padding:14px;
+      box-shadow:0 6px 18px rgba(15,23,42,0.04);
+    }
+
+    table{ width:100%; border-collapse:collapse; font-size:14px; }
+    th, td{ text-align:left; padding:8px 6px; border-bottom:1px solid #f1f4f3; vertical-align:top; }
+    th{ color:var(--muted); font-weight:600; font-size:13px; }
+
+    .plant-row{
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+    .plant-row img{
+      width:84px; height:64px; object-fit:cover; border-radius:8px; border:1px solid #eef7f1;
+    }
+    .muted{ color:var(--muted); font-size:13px; }
+
+    /* calculator */
+    label{ font-size:13px; display:block; margin-bottom:6px; color:#0f172a; }
+    input[type="number"], select{
+      width:100%; padding:8px 10px; border-radius:8px; border:1px solid #e6eef0; font-size:14px;
+    }
+    .row{ display:flex; gap:10px; }
+    .row > *{ flex:1; }
+    button{
+      background:var(--accent); color:white; border:0; padding:10px 12px; border-radius:8px; cursor:pointer;
+      box-shadow:0 6px 14px rgba(47,122,91,0.12);
+    }
+    .result{ margin-top:10px; padding:10px; background:#f3fff6; border-radius:8px; color:#04462a; font-weight:600; }
+    footer{ margin-top:14px; font-size:13px; color:var(--muted); }
+    .sources{ font-size:13px; color:var(--muted); margin-top:10px; line-height:1.4; }
+    .small{ font-size:12px; color:#475569; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <!-- Replace placeholder src with a good forest soil image -->
+      <img src="FOREST SOIL.webp" alt="Forest soil">
+      <div>
+        <h1>Forest Soil — crops, growth info & seed calculator</h1>
+        <p class="lead">Forest soils are generally rich in organic matter and support shade-loving crops and many tree species. Below: typical plants that are commonly grown/associated with forest or agroforestry settings, growth time, suitable climate and seed/seedling guidance.</p>
+      </div>
+    </header>
+
+    <div class="grid">
+      <div class="card">
+        <h2 style="margin-top:0;font-size:16px;color:#0f172a">Common forest / agroforest crops</h2>
+
+        <table aria-label="Crops table">
+          <thead>
+            <tr>
+              <th>Crop</th>
+              <th>Climate & growth</th>
+              <th>Density / seed rate (typical)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div class="plant-row">
+                  <img src="coffe.jpg" alt="Coffee">
+                  <div>
+                    <strong>Coffee (Arabica)</strong><div class="small muted">shade-grown, tree</div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="muted">Tropical/subtropical highlands, 1400–2000 mm rainfall, moderate temperatures. First bearing in ~3–4 years; peak in 4–8 years.</div>
+              </td>
+              <td>
+                <div><strong>~2,420 plants / acre</strong> (spacing & mechanization patterns vary). Seedlings/saplings commonly used (not raw seed). Typical seedling price varies by nursery / region. :contentReference[oaicite:0]{index=0}</div>
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <div class="plant-row">
+                  <img src="tea.jpg" alt="Tea">
+                  <div>
+                    <strong>Tea (Camellia sinensis)</strong><div class="small muted">shrub plantation / small trees</div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="muted">Humid, high rainfall (1500–2500 mm), mild temps. Tea bushes begin plucking from ~3 years; commercial returns after 4–5 years.</div>
+              </td>
+              <td>
+                <div><strong>~4,000–20,000 plants / acre</strong> depending on system (single/double hedge & clone). Use nursery saplings. :contentReference[oaicite:1]{index=1}</div>
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <div class="plant-row">
+                  <img src="Cardamom.jpg" alt="Cardamom">
+                  <div>
+                    <strong>Cardamom (Elettaria/cardamom)</strong><div class="small muted">shade-loving understory spice</div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="muted">Humid, shaded tropical forest floor; gestation ~2–3 years; full production often after 4–5 years.</div>
+              </td>
+              <td>
+                <div><strong>~445 plants/acre (≈1100 plants/ha)</strong> is a typical figure used in regional project analyses. Planting material cost & nursery seedling size vary. :contentReference[oaicite:2]{index=2}</div>
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <div class="plant-row">
+                  <img src="Black-Pepper.jpg" alt="Black pepper">
+                  <div>
+                    <strong>Black pepper (Piper nigrum)</strong><div class="small muted">vine planted on supports/trees</div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="muted">Tropical humid climates; vines start bearing in 2–3 years, best yields after 4–6 years; long-lived perennial (20+ years).</div>
+              </td>
+              <td>
+                <div><strong>~880 vines/acre</strong> is a figure used in national project DPRs; planting material cost per acre can be small when using rooted cuttings (state subsidies vary). :contentReference[oaicite:3]{index=3}</div>
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <div class="plant-row">
+                  <img src="COCOA.jpg" alt="Cocoa">
+                  <div>
+                    <strong>Cocoa (Theobroma cacao)</strong><div class="small muted">shade tree intercrop</div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="muted">Humid tropical lowlands (hot & humid). Trees start fruiting in ~2–4 years; full production later. Often grown under shade trees in agroforestry systems.</div>
+              </td>
+              <td>
+                <div><strong>commonly 400–800 plants/acre (varies)</strong>. Seedling prices depend on variety and nursery. :contentReference[oaicite:4]{index=4}</div>
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <div class="plant-row">
+                  <img src="BAMBOO.webp" alt="Bamboo">
+                  <div>
+                    <strong>Bamboo (commercial clumping species)</strong><div class="small muted">fast-growing forest grass</div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="muted">Many species suit tropical/subtropical areas. Culms begin in 1–3 years; commercial harvesting 5–7 years onward for many species.</div>
+              </td>
+              <td>
+                <div><strong>~150–300 plants/acre</strong> commonly used (depends on species). Establishment costs vary; harvests start around year 5–7. :contentReference[oaicite:5]{index=5}</div>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+
+        <div class="sources">
+          <strong>Key sources for densities / economics (verify for your region):</strong>
+          <ul>
+            <li>Coffee planting designs (Coffee Board of India) and nursery listings for seedling pricing. :contentReference[oaicite:6]{index=6}</li>
+            <li>Tea planting density guidance and Tea Board weekly price info. :contentReference[oaicite:7]{index=7}</li>
+            <li>Cardamom cost-of-cultivation reports (regional PDF) and practical guides. :contentReference[oaicite:8]{index=8}</li>
+            <li>Black pepper DPR (NHB) — plants per acre & planting material cost examples. :contentReference[oaicite:9]{index=9}</li>
+            <li>Cocoa and bamboo regional economics & establishment notes. :contentReference[oaicite:10]{index=10}</li>
+          </ul>
+          <div class="small">Note: crop densities vary by varietal, terrain, and local practice. Always check local extension services / nurseries for the exact seedling size and recommended spacing for your variety.</div>
+        </div>
+      </div>
+
+      <!-- Calculator column -->
+      <aside class="card">
+        <h3 style="margin-top:0;color:#0f172a">Seed / Seedling Calculator</h3>
+        <div class="small muted">Choose a crop, enter area (acres) — default seed/seedling rates and prices are pre-filled from common references; update them for local accuracy.</div>
+
+        <form id="calcForm" onsubmit="return false;" style="margin-top:10px;">
+          <label for="crop">Crop</label>
+          <select id="crop">
+            <option value="coffee">Coffee (Arabica)</option>
+            <option value="tea">Tea (Camellia)</option>
+            <option value="cardamom">Cardamom</option>
+            <option value="pepper">Black pepper</option>
+            <option value="cocoa">Cocoa</option>
+            <option value="bamboo">Bamboo</option>
+          </select>
+
+          <label for="area" style="margin-top:8px;">Area (acres)</label>
+          <input id="area" type="number" min="0.01" step="0.01" value="1">
+
+          <label for="rate" style="margin-top:8px;">Seedlings / seeds required per acre (default)</label>
+          <input id="rate" type="number" min="1" step="1" value="2420">
+
+          <label for="unitCost" style="margin-top:8px;">Seed / seedling unit cost (₹ per seed/seedling) — update to current market price</label>
+          <input id="unitCost" type="number" min="0" step="0.01" value="15">
+
+          <div style="margin-top:10px;" class="row">
+            <button onclick="calculate()">Calculate</button>
+            <button style="background:#e6f7ef;color:#04462a" onclick="resetDefaults()">Reset</button>
+          </div>
+
+          <div id="result" class="result" style="display:none"></div>
+
+          <div style="margin-top:12px;">
+            <div class="small muted"><strong>Tip:</strong> Unit cost may be per seed, per seedling or per rooted cutting depending on crop. For example, pepper and cardamom often use rooted cuttings; coffee/tea use nursery saplings. Adjust the unit cost accordingly.</div>
+          </div>
+        </form>
+
+        <hr style="margin:12px 0;border-color:#eef7f1;">
+        <div>
+          <strong>Default values source highlights</strong>
+          <ul class="small muted">
+            <li>Coffee density ~2420 plants/acre — Coffee Board planting manuals. :contentReference[oaicite:11]{index=11}</li>
+            <li>Tea densities vary widely by system — example 4,497 plants/acre for some hedging systems. :contentReference[oaicite:12]{index=12}</li>
+            <li>Black pepper 880 vines/acre — cited in NHB DPR docs. :contentReference[oaicite:13]{index=13}</li>
+            <li>Cardamom and bamboo references also listed above. :contentReference[oaicite:14]{index=14}</li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+
+    <footer>
+      <div class="small muted">If you want, I can:
+        <ul>
+          <li>Replace the placeholder images with real photos (I can fetch public domain / commons images and inject direct image URLs in the HTML),</li>
+          <li>Switch units to per hectare (instead of acres), or</li>
+          <li>Extend the calculator to include labour & fertilizer cost estimates per acre for each crop (requires region & year for accurate prices).</li>
+        </ul>
+      </div>
+
+      <div style="margin-top:10px;"><strong>Data sources used for densities & sample prices:</strong>
+        <div class="sources">
+          Coffee Board planting designs & nursery listings. :contentReference[oaicite:15]{index=15}<br>
+          Tea planting density guides & Tea Board weekly prices. :contentReference[oaicite:16]{index=16}<br>
+          Cardamom cultivation cost reports (regional PDF). :contentReference[oaicite:17]{index=17}<br>
+          Black pepper DPR (NHB) planting guidelines & planting material cost note. :contentReference[oaicite:18]{index=18}<br>
+          Cocoa economics & bamboo cultivation references. :contentReference[oaicite:19]{index=19}
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // default profiles (these are editable by the user in the form)
+    const profiles = {
+      coffee: {rate:2420, unitCost:15},   // rate: plants/acre, unitCost: ₹ per seedling (example)
+      tea:    {rate:4500, unitCost:8},
+      cardamom:{rate:445, unitCost:12},
+      pepper: {rate:880, unitCost:3},
+      cocoa:  {rate:500, unitCost:20},
+      bamboo: {rate:200, unitCost:40}
+    };
+
+    const cropSelect = document.getElementById('crop');
+    const areaInput = document.getElementById('area');
+    const rateInput = document.getElementById('rate');
+    const unitCostInput = document.getElementById('unitCost');
+    const resultBox = document.getElementById('result');
+
+    // when crop changes, prefill rate & unit cost
+    cropSelect.addEventListener('change', () => {
+      const c = cropSelect.value;
+      rateInput.value = profiles[c].rate;
+      unitCostInput.value = profiles[c].unitCost;
+      resultBox.style.display = 'none';
+    });
+
+    // set initial defaults
+    (function init() {
+      const c = cropSelect.value;
+      rateInput.value = profiles[c].rate;
+      unitCostInput.value = profiles[c].unitCost;
+    })();
+
+    function calculate(){
+      const crop = cropSelect.value;
+      const acres = parseFloat(areaInput.value) || 0;
+      const rate = parseFloat(rateInput.value) || 0;
+      const unitCost = parseFloat(unitCostInput.value) || 0;
+
+      const totalUnits = Math.ceil(rate * acres);
+      const totalCost = (totalUnits * unitCost);
+
+      resultBox.style.display = 'block';
+      resultBox.innerHTML = `
+        For <strong>${acres.toFixed(2)} acre(s)</strong> of <strong>${crop}</strong>:
+        <div style="margin-top:8px;">
+          Units required: <strong>${totalUnits.toLocaleString()}</strong><br>
+          Estimated seed/seedling cost: <strong>₹ ${totalCost.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})}</strong>
+        </div>
+        <div class="small muted" style="margin-top:8px;">
+          <strong>Reminder:</strong> unit cost must match what 'rate' represents (seed vs seedling vs rooted cutting). Adjust the unit cost field for local prices.
+        </div>
+      `;
+    }
+
+    function resetDefaults(){
+      const c = cropSelect.value;
+      rateInput.value = profiles[c].rate;
+      unitCostInput.value = profiles[c].unitCost;
+      resultBox.style.display = 'none';
+    }
+  </script>
+</body>
+</html>

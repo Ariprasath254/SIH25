@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Endless Harvesting</title>
+  <style>
+    body { margin:0; font-family: Arial, sans-serif; background:#f4f4f4; color:#333; }
+    header { display:flex; justify-content:center; align-items:center; position:relative; background:linear-gradient(90deg, #e6ffe6, #ffffff); padding:15px; }
+    header h1 { margin:0; font-size:30px; font-weight:700; color:#087f23; text-align:center; }
+    header img { position:absolute; right:20px; top:8px; height:64px; object-fit:contain; }
+
+    .form-container { display:flex; justify-content:center; align-items:center; min-height:78vh; }
+    form { background:#fff; padding:26px; border-radius:10px; box-shadow:0 6px 18px rgba(0,0,0,0.12); width:380px; }
+    form h2 { text-align:center; margin:0 0 14px 0; color:#0b6f1a; }
+    label { display:block; margin:10px 0 6px; font-weight:600; }
+    input { width:100%; padding:10px; margin-bottom:12px; border:1px solid #ccc; border-radius:6px; box-sizing: border-box; }
+    button { width:100%; padding:10px; background:#087f23; color:#fff; border:none; border-radius:6px; font-size:16px; cursor:pointer; }
+    button:hover{ background:#0b8f2b }
+
+    /* --- NEW CSS FOR THE HYPERLINK BUTTON --- */
+    a.button-link {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      background: #5c6bc0; /* A different color */
+      color: #fff;
+      text-align: center;
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+    a.button-link:hover {
+      background: #3949ab;
+    }
+    /* --- END OF NEW CSS --- */
+
+    #welcomePage { display:none; } /* This page is no longer used, so we can keep it hidden */
+
+    /* small screens */
+    @media (max-width:420px){ form{ width:92%; padding:18px } header img{ height:52px; right:10px } header h1{ font-size:22px } }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>ENDLESS HARVESTING</h1>
+    <img src="logo.jpg" alt="Logo" id="topLogo" />
+  </header>
+
+  <div class="form-container" id="formPage">
+    <form id="userForm">
+      <h2>Create Account</h2>
+
+      <label for="username">Username</label>
+      <input type="text" id="username" required />
+
+      <label for="password">Password</label>
+      <input type="password" id="password" required />
+
+      <label for="name">Full Name</label>
+      <input type="text" id="name" required />
+
+
+      <a href="file:///C:/Users/hp/OneDrive/Desktop/ENDLESS%20HARVESTING/slection.html" class="button-link">Go to Soil Selection</a>
+      </form>
+  </div>
+
+  <div id="welcomePage">
+    </div>
+
+  <script>
+    // On form submit, redirect to the soil selection page
+    document.getElementById('userForm').addEventListener('submit', (e) => {
+      e.preventDefault(); // Prevents the form from reloading the page
+      window.location.href = 'soil_selection.html'; // Redirects to the new page
+    });
+  </script>
+</body>
+</html>

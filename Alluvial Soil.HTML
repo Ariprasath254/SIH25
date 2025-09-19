@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Alluvial Soil — Crops, Growth Info & Seed Calculator</title>
+  <style>
+    :root{
+      --accent:#167a6f;
+      --muted:#667085;
+      --card:#fff;
+      --bg:#f4fbf9;
+      --glass: rgba(255,255,255,0.8);
+    }
+    body{font-family:Inter,ui-sans-serif,system-ui,Segoe UI,Roboto,Arial; margin:0;background:var(--bg);color:#0b1720}
+    header{background:linear-gradient(90deg,var(--accent),#0b5a56);color:#fff;padding:28px 18px;text-align:center}
+    .container{max-width:1100px;margin:18px auto;padding:18px}
+    h1{margin:6px 0;font-size:28px}
+    p.lead{color:var(--muted);margin:8px 0 22px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+    .card{background:var(--card);box-shadow:0 6px 18px rgba(12,30,30,0.06);border-radius:12px;overflow:hidden}
+    .card img{width:100%;height:180px;object-fit:cover;display:block}
+    .card .body{padding:12px}
+    .small{font-size:13px;color:var(--muted)}
+    .pill{display:inline-block;background:var(--bg);padding:6px 10px;border-radius:999px;font-weight:600;margin-right:6px;font-size:13px}
+    .calculator{padding:10px;margin-top:10px;background:#fdfdfd;border:1px solid #e6eef0;border-radius:8px}
+    .calculator label{display:block;font-size:13px;font-weight:600;margin-bottom:4px}
+    .calculator input{width:100%;padding:6px;border-radius:6px;border:1px solid #ccc;margin-bottom:6px}
+    .calculator button{background:var(--accent);color:#fff;border:0;padding:6px 10px;border-radius:6px;font-size:13px;cursor:pointer}
+    footer{margin:28px 0 60px;color:var(--muted);font-size:13px;text-align:center}
+    .note{background:#fff8e6;padding:10px;border-radius:8px;border:1px solid #fff0c8;color:#7a5a00;font-size:13px}
+    @media (max-width:600px){ .card img{height:150px} }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Alluvial Soil — Crops, Growth Info & Seed Calculator</h1>
+    <div class="small">Typical crops, durations, seed rates per acre and a seed-cost calculator.</div>
+  </header>
+
+  <div class="container">
+    <section>
+      <h2>About Alluvial Soil</h2>
+      <img src="Alluvial-Soil.jpg" 
+           alt="Alluvial soil image" 
+           style="width:100%;max-height:320px;object-fit:cover;border-radius:12px;margin:10px 0;">
+      <p class="lead">
+        Alluvial soils (river-deposited) are fertile, often loamy and support high-yield cultivation
+        of cereals, sugarcane, oilseeds, pulses, jute and vegetables — widely used across river plains
+        like the Ganges & Brahmaputra basins.
+      </p>
+      <div class="grid">
+        <!-- Rice -->
+        <div class="card">
+          <a href="https://commons.wikimedia.org/wiki/File:Rice_Fields.jpg" target="_blank" rel="noopener">
+            <img alt="Rice field" src="https://commons.wikimedia.org/wiki/Special:FilePath/Rice_Fields.jpg">
+          </a>
+          <div class="body">
+            <h3>Rice (Paddy)</h3>
+            <div class="small">Seed rate: <strong>~8 kg / acre</strong>. Duration: <strong>100–150 days</strong>. Climate: warm, water-abundant (monsoon/irrigated).</div>
+            
+            <!-- Rice Calculator -->
+            <div class="calculator">
+              <label>Area (acre)</label>
+              <input type="number" id="rice_area" value="1" min="0" step="0.01">
+              <button onclick="calcCrop('rice',8,23)">Calculate</button>
+              <div class="small">Required: <span id="rice_req">—</span></div>
+              <div class="small">Cost: <span id="rice_cost">—</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Wheat -->
+        <div class="card">
+          <a href="https://commons.wikimedia.org/wiki/File:Golden_Wheat_Field.jpg" target="_blank" rel="noopener">
+            <img alt="Wheat field" src="https://commons.wikimedia.org/wiki/Special:FilePath/Golden_Wheat_Field.jpg">
+          </a>
+          <div class="body">
+            <h3>Wheat</h3>
+            <div class="small">Seed rate: <strong>~40–50 kg / acre</strong>. Duration: <strong>110–150+ days</strong>. Climate: cooler rabi season in plains.</div>
+            
+            <!-- Wheat Calculator -->
+            <div class="calculator">
+              <label>Area (acre)</label>
+              <input type="number" id="wheat_area" value="1" min="0" step="0.01">
+              <button onclick="calcCrop('wheat',45,25)">Calculate</button>
+              <div class="small">Required: <span id="wheat_req">—</span></div>
+              <div class="small">Cost: <span id="wheat_cost">—</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sugarcane -->
+        <div class="card">
+            <img alt="sugarcane field" src="sugarcane.jpeg">
+          <div class="body">
+            <h3>Sugarcane</h3>
+            <div class="small">Seed rate: <strong>~100–150 kg / acre</strong>. Duration: <strong>10–12+ months</strong>. Climate: tropical & subtropical.</div>
+            
+            <!-- Sugarcane Calculator -->
+            <div class="calculator">
+              <label>Area (acre)</label>
+              <input type="number" id="sugarcane_area" value="1" min="0" step="0.01">
+              <button onclick="calcCrop('sugarcane',120,4)">Calculate</button>
+              <div class="small">Required: <span id="sugarcane_req">—</span></div>
+              <div class="small">Cost: <span id="sugarcane_cost">—</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Maize -->
+        <div class="card">
+          <a href="https://commons.wikimedia.org/wiki/File:Maize_field.jpg" target="_blank" rel="noopener">
+            <img alt="Maize field" src="https://commons.wikimedia.org/wiki/Special:FilePath/Maize_field.jpg">
+          </a>
+          <div class="body">
+            <h3>Maize (Corn)</h3>
+            <div class="small">Seed rate: <strong>~5–10 kg / acre</strong>. Duration: <strong>90–140 days</strong>. Climate: warm; kharif or rabi with irrigation.</div>
+            
+            <!-- Maize Calculator -->
+            <div class="calculator">
+              <label>Area (acre)</label>
+              <input type="number" id="maize_area" value="1" min="0" step="0.01">
+              <button onclick="calcCrop('maize',8,22)">Calculate</button>
+              <div class="small">Required: <span id="maize_req">—</span></div>
+              <div class="small">Cost: <span id="maize_cost">—</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cotton -->
+        <div class="card">
+            <img alt="cotton" src="cotton.jpg">
+          <div class="body">
+            <h3>Cotton</h3>
+            <div class="small">Seed rate: <strong>32–35 kg / acre</strong>. Duration: <strong>150–180 days</strong>. Climate: tropical and subtropical; high water need.</div>
+            
+            <!-- Cotton Calculator -->
+            <div class="calculator">
+              <label>Area (acre)</label>
+              <input type="number" id="cotton_area" value="1" min="0" step="0.01">
+              <button onclick="calcCrop('cotton',33,50)">Calculate</button>
+              <div class="small">Required: <span id="cotton_req">—</span></div>
+              <div class="small">Cost: <span id="cotton_cost">—</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Jute -->
+        <div class="card">
+            <img alt="Jute field" src="jute.jpg">
+          <div class="body">
+            <h3>Jute</h3>
+            <div class="small">Seed rate: <strong>~5–10 kg / acre</strong>. Duration: <strong>100–150 days</strong>. Climate: warm, humid, high rainfall.</div>
+            
+            <!-- Jute Calculator -->
+            <div class="calculator">
+              <label>Area (acre)</label>
+              <input type="number" id="jute_area" value="1" min="0" step="0.01">
+              <button onclick="calcCrop('jute',8,60)">Calculate</button>
+              <div class="small">Required: <span id="jute_req">—</span></div>
+              <div class="small">Cost: <span id="jute_cost">—</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Seed Calculator (original) -->
+    <section style="margin-top:18px">
+      <h2>Seed Calculator</h2>
+      <div class="card calculator">
+        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+          <div style="flex:1;min-width:220px">
+            <label for="crop">Crop</label>
+            <select id="crop">
+              <option value="rice" data-rate="8" data-price="23">Rice — 8 kg/acre (₹23/kg)</option>
+              <option value="wheat" data-rate="45" data-price="25">Wheat — 45 kg/acre (₹25/kg)</option>
+              <option value="maize" data-rate="8" data-price="22">Maize — 8 kg/acre (₹22/kg)</option>
+              <option value="sugarcane" data-rate="120" data-price="4">Sugarcane — 120 kg/acre (₹4/kg)</option>
+              <option value="jute" data-rate="8" data-price="60">Jute — 8 kg/acre (₹60/kg)</option>
+              <option value="cotton" data-rate="33" data-price="50">Cotton — 33 kg/acre (₹50/kg)</option>
+            </select>
+          </div>
+          <div style="width:120px">
+            <label for="area">Area (acre)</label>
+            <input id="area" type="number" min="0" value="1" step="0.01" />
+          </div>
+          <div style="width:160px">
+            <label for="seedrate">Seed rate (kg/acre)</label>
+            <input id="seedrate" type="number" min="0" step="0.01" value="8" />
+          </div>
+          <div style="width:160px">
+            <label for="seedprice">Seed price (₹/kg)</label>
+            <input id="seedprice" type="number" min="0" step="0.01" value="23" />
+          </div>
+          <div style="min-width:140px">
+            <label>&nbsp;</label>
+            <button id="calcBtn">Calculate</button>
+          </div>
+        </div>
+
+        <div style="margin-top:12px;display:flex;gap:12px;flex-wrap:wrap">
+          <div style="flex:1;min-width:200px">
+            <div class="small">Seed required</div>
+            <div id="seedRequired" style="font-size:20px;font-weight:700">— kg</div>
+          </div>
+          <div style="flex:1;min-width:200px">
+            <div class="small">Estimated seed cost</div>
+            <div id="seedCost" style="font-size:20px;font-weight:700">— ₹</div>
+          </div>
+        </div>
+
+        <div style="margin-top:12px">
+          <div class="note">Note: Prices and rates vary by region and seed quality. Edit fields with your local data for accuracy.</div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="small">Image credits: Wikimedia Commons (click images for file pages). Seed data from agronomy/extension guides.</div>
+    </footer>
+  </div>
+
+  <script>
+    // Mini calculators for each crop
+    function calcCrop(crop, rate, price){
+      const acres = parseFloat(document.getElementById(crop+"_area").value)||0;
+      const req = acres * rate;
+      const cost = req * price;
+      document.getElementById(crop+"_req").textContent = req.toFixed(2)+" kg";
+      document.getElementById(crop+"_cost").textContent = "₹ "+cost.toFixed(2);
+    }
+
+    // Main calculator
+    const cropSelect = document.getElementById('crop');
+    const areaInput = document.getElementById('area');
+    const seedrateInput = document.getElementById('seedrate');
+    const seedpriceInput = document.getElementById('seedprice');
+    const calcBtn = document.getElementById('calcBtn');
+    const seedRequired = document.getElementById('seedRequired');
+    const seedCost = document.getElementById('seedCost');
+
+    function updateFieldsFromCrop(){
+      const sel = cropSelect.options[cropSelect.selectedIndex];
+      const rate = parseFloat(sel.getAttribute('data-rate')) || 0;
+      const price = parseFloat(sel.getAttribute('data-price')) || 0;
+      if(rate) seedrateInput.value = rate;
+      if(!seedpriceInput.value || parseFloat(seedpriceInput.value) === 0) seedpriceInput.value = price || '';
+    }
+    cropSelect.addEventListener('change', updateFieldsFromCrop);
+    updateFieldsFromCrop();
+
+    function calculate(){
+      const acres = parseFloat(areaInput.value) || 0;
+      const rate = parseFloat(seedrateInput.value) || 0;
+      const price = parseFloat(seedpriceInput.value) || 0;
+      const required = (rate * acres);
+      const cost = required * price;
+      seedRequired.textContent = required.toLocaleString(undefined,{maximumFractionDigits:2}) + ' kg';
+      seedCost.textContent = '₹ ' + cost.toLocaleString(undefined,{maximumFractionDigits:2});
+    }
+    calcBtn.addEventListener('click', calculate);
+    [areaInput,seedrateInput,seedpriceInput].forEach(i=>i.addEventListener('keydown', e=>{ if(e.key==='Enter') calculate(); }));
+    calculate();
+  </script>
+</body>
+</html>

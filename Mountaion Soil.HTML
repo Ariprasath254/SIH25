@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Mountain Soil — Crops, Growth Info & Seed Calculator</title>
+  <style>
+    :root{--accent:#2b6cb0;--muted:#6b7280;--card:#fff;--bg:#f7fbff}
+    body{font-family:Inter,ui-sans-serif,system-ui,Segoe UI,Roboto,Helvetica,Arial;background:var(--bg);margin:0;color:#0f172a}
+    header{background:linear-gradient(90deg,#0ea5a1, #2b6cb0);color:white;padding:28px 24px}
+    .wrap{max-width:980px;margin:20px auto;padding:18px}
+    .grid{display:grid;grid-template-columns:1fr 320px;gap:18px}
+    .card{background:var(--card);border-radius:12px;padding:16px;box-shadow:0 6px 18px rgba(12,15,25,0.06)}
+    h1{margin:0;font-size:20px}
+    img{max-width:100%;border-radius:8px}
+    .crop-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:12px}
+    .crop{display:flex;gap:10px;align-items:center}
+    .crop img{width:88px;height:64px;object-fit:cover;border-radius:6px}
+    label{display:block;font-size:13px;color:var(--muted);margin-top:8px}
+    input[type="number"],select{width:100%;padding:8px;border-radius:8px;border:1px solid #e6edf3}
+    .muted{color:var(--muted);font-size:13px}
+    .result{font-weight:700;font-size:18px;margin-top:12px}
+    footer{max-width:980px;margin:18px auto;color:var(--muted);font-size:13px;text-align:center}
+    @media (max-width:880px){.grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>Mountain Soil — Crops, Growth Info & Seed Calculator</h1>
+      <p class="muted">Common mountain crops, images, typical growing duration and a seed calculator for per-acre seed/sapling requirements and cost.</p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="grid">
+      <section class="card">
+        <img src="moutation soil.webp" alt="Mountain Soil">
+            <div>
+        <h2>About Mountain Soil</h2>
+        <p class="muted">Mountain soils vary by elevation and region — often shallow, well‑drained, acidic to neutral, with variable organic matter. They commonly support orchards, tuber crops, coarse cereals, tea/coffee on slopes and short‑season grains/vegetables adapted to cooler climates.</p>
+        <h3 style="margin-top:12px">Crops that commonly grow in mountain soils</h3>
+        <div class="crop-list">
+          <div class="crop">
+            <img src="app;e.webp" alt="Apple orchard">
+            <div>
+              <strong>Apple (orchard)</strong>
+              <div class="muted">Trees per acre (typical high-density): ~150–300 • Time to fruit: 2–5 years</div>
+            </div>
+          </div>
+
+          <div class="crop">
+            <img src="potato.jpg" alt="Potato field">
+            <div>
+              <strong>Potato</strong>
+              <div class="muted">Seed tuber requirement: ~600–800 kg/acre • Time to harvest: 90–150 days</div>
+            </div>
+          </div>
+
+          <div class="crop">
+            <img src="Barley.webp" alt="Barley field">
+            <div>
+              <strong>Barley</strong>
+              <div class="muted">Seed rate: ~35–45 kg/acre • Time to harvest: 90–120 days</div>
+            </div>
+          </div>
+
+          <div class="crop">
+            <img src="Maize.jpg" alt="Maize field">
+            <div>
+              <strong>Maize</strong>
+              <div class="muted">Seed rate: ~5–10 kg/acre (depending on spacing) • Time: 90–130 days</div>
+            </div>
+          </div>
+
+          <div class="crop">
+            <img src="tea.jpg" alt="Tea plantation">
+            <div>
+              <strong>Tea</strong>
+              <div class="muted">Shade/slope crop — seedlings per acre (approx): ~4,000 (depends on spacing) • Time to first pluck: 3–4 years</div>
+            </div>
+          </div>
+
+          <div class="crop">
+            <img src="buckwheat.jpeg" alt="Buckwheat">
+            <div>
+              <strong>Buckwheat</strong>
+              <div class="muted">Seed rate: ~20–60 kg/acre (varies by method) • Time: 8–12 weeks</div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <aside class="card">
+        <h3>Seed / Sapling Calculator (per acre)</h3>
+
+        <label for="crop">Choose crop</label>
+        <select id="crop">
+          <option value="maize">Maize</option>
+          <option value="barley">Barley</option>
+          <option value="potato">Potato (seed tuber)</option>
+          <option value="apple">Apple (saplings)</option>
+          <option value="tea">Tea (seedlings)</option>
+          <option value="buckwheat">Buckwheat</option>
+        </select>
+
+        <label for="area">Area (acres)</label>
+        <input id="area" type="number" value="1" min="0.01" step="0.01" />
+
+        <label for="seedRate">Seed required per acre (auto-filled)</label>
+        <input id="seedRate" type="number" value="" />
+
+        <label for="price">Market price (₹ per kg or per sapling for tree crops)</label>
+        <input id="price" type="number" value="100" />
+
+        <div class="muted">For tree crops (apple, tea) the calculator treats the "seed rate" as number of saplings per acre and the price unit as ₹ per sapling.</div>
+
+        <button id="calc" style="margin-top:12px;padding:10px 12px;border-radius:8px;border:0;background:var(--accent);color:white;cursor:pointer">Calculate</button>
+
+        <div id="out" class="result">—</div>
+
+        <hr style="margin:12px 0">
+        <div class="muted">Edit market price to current local rates (seed/sapling prices vary by variety and season). This tool gives a quick estimate only.</div>
+      </aside>
+    </div>
+
+    <section style="margin-top:18px" class="card">
+      <h3>Quick notes on climate & growing duration</h3>
+      <ul class="muted">
+        <li>Mountain crops prefer cooler temperatures and often shorter growing seasons; frost dates and elevation determine suitable varieties.</li>
+        <li>Orchards (apple, pear) do well in temperate uplands; tubers and coarse grains suit mid‑altitude slopes.</li>
+        <li>Tea/coffee require specific temperature and rainfall profiles with good drainage on slopes.</li>
+      </ul>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="muted">This page and calculator are for estimation only. Consult local agricultural extension (KVK) for precise seed rates, varieties and up‑to‑date seed prices in your area.</div>
+  </footer>
+
+  <script>
+    // Basic dataset (typical per-acre seed/sapling numbers or kg)
+    const cropData = {
+      maize: {seedPerAcre: 6, unit:'kg'},
+      barley: {seedPerAcre: 40, unit:'kg'},
+      potato: {seedPerAcre: 700, unit:'kg'},
+      apple: {seedPerAcre: 180, unit:'saplings'},
+      tea: {seedPerAcre: 4047, unit:'seedlings'},
+      buckwheat: {seedPerAcre: 25, unit:'kg'}
+    };
+
+    const cropSelect = document.getElementById('crop');
+    const seedRateInput = document.getElementById('seedRate');
+    const areaInput = document.getElementById('area');
+    const priceInput = document.getElementById('price');
+    const out = document.getElementById('out');
+
+    function fillDefaults(){
+      const c = cropSelect.value;
+      seedRateInput.value = cropData[c].seedPerAcre;
+      priceInput.value = getDefaultPrice(c);
+      out.textContent = '—';
+    }
+
+    function getDefaultPrice(c){
+      // conservative default market values (editable by user)
+      const defaults = {
+        maize: 900,    // ₹ per kg (seed packets vary widely)
+        barley: 30,    // ₹ per kg
+        potato: 60,    // ₹ per kg (seed tuber)
+        apple: 350,    // ₹ per sapling
+        tea: 12,       // ₹ per seedling (approx nursery rate)
+        buckwheat: 80  // ₹ per kg
+      };
+      return defaults[c] || 100;
+    }
+
+    document.getElementById('calc').addEventListener('click', ()=>{
+      const c = cropSelect.value;
+      const area = parseFloat(areaInput.value) || 0;
+      const seedPerAcre = parseFloat(seedRateInput.value) || cropData[c].seedPerAcre;
+      const price = parseFloat(priceInput.value) || 0;
+
+      const totalSeed = seedPerAcre * area;
+      const totalCost = (totalSeed * price).toFixed(2);
+
+      const unit = cropData[c].unit || 'kg';
+      out.innerHTML = `${totalSeed.toLocaleString()} ${unit} needed — Estimated seed/sapling cost: ₹ ${totalCost}`;
+    });
+
+    // auto-fill when crop changes
+    cropSelect.addEventListener('change', fillDefaults);
+    window.addEventListener('load', fillDefaults);
+  </script>
+</body>
+</html>

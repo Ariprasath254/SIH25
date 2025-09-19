@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Laterite Soil — Crops, Growth Info & Seed Calculator</title>
+  <style>
+    :root{--accent:#d2a733;--muted:#667085;--card:#fff;--bg:#fbf7f3}
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;margin:0;background:var(--bg);color:#0b1221}
+    header{background:linear-gradient(90deg,var(--accent),#e07a4f);color:#fff;padding:28px 20px}
+    .wrap{max-width:1100px;margin:18px auto;padding:0 18px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+    .card{background:var(--card);border-radius:12px;padding:14px;box-shadow:0 6px 18px rgba(13,21,30,0.06)}
+    .card img{width:100%;height:160px;object-fit:cover;border-radius:8px}
+    h1{margin:0;font-size:22px}
+    h2{font-size:18px;margin:6px 0}
+    p.small{color:var(--muted);font-size:13px}
+    .meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+    .meta span{background:#f1f5f9;padding:6px 8px;border-radius:999px;font-size:13px}
+    .calculator{display:flex;flex-direction:column;gap:10px}
+    label{font-size:13px}
+    input[type=number],select{padding:8px;border-radius:8px;border:1px solid #e6e9ef;font-size:14px;width:100%}
+    .row{display:flex;gap:10px}
+    .row > *{flex:1}
+    button{background:var(--accent);color:#fff;border:0;padding:10px 14px;border-radius:8px;font-weight:600;cursor:pointer}
+    footer{padding:18px;text-align:center;color:var(--muted);font-size:13px}
+    .note{background:#fff3e8;padding:10px;border-radius:10px;margin-bottom:12px}
+    @media (max-width:460px){.card img{height:140px}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>Laterite Soil — Crops, Growth Info & Seed Calculator</h1>
+      <p class="small">Common crops that do well on laterite soils (with proper management & irrigation): plantation crops (cashew, coffee, tea, coconut), tuber crops like cassava (tapioca), and some millets and pulses.</p>
+    </div>
+  </header>
+
+  <main class="wrap">
+
+    <section class="note card">
+      <strong>How to use:</strong> Choose a crop card below to view its growth duration, ideal climate, seed/planting material rate (per acre) and then use the seed calculator to compute the quantity & cost for the area you plan to sow. Prices may vary by region — you can edit the 'seed price' field to match current local market rates.
+    </section>
+
+    <section class="grid" id="cropsGrid">
+      <!-- Each card: image (placeholder), crop name, duration, climate, seed rate (source) -->
+
+      <article class="card" data-crop="cashew">
+        <img src="Cashew.jpg" alt="Cashew tree">
+        <h2>Cashew (Anacardium occidentale)</h2>
+        <p class="small">Plant type: Plantation tree • Typical time to bearing: 3–5 years to start producing; full bearing after ~6–8 years.</p>
+        <div class="meta">
+          <span>Climate: Tropical, warm & humid (laterite regions with good drainage).</span>
+          <span>Planting: saplings per acre ~100 (varies by spacing).</span>
+        </div>
+      </article>
+
+      <article class="card" data-crop="coconut">
+        <img src="COCPUNT.webp" alt="Coconut tree">
+        <h2>Coconut</h2>
+        <p class="small">Plant type: Plantation tree • Time to bearing: 3–6 years for many varieties.</p>
+        <div class="meta">
+          <span>Climate: Tropical, high humidity & rainfall preferred.</span>
+          <span>Planting: seedlings per acre ~120–160 (depends on spacing).</span>
+        </div>
+      </article>
+
+      <article class="card" data-crop="coffee">
+        <img src="coffe.jpg" alt="Coffee plant">
+        <h2>Coffee</h2>
+        <p class="small">Plant type: Plantation shrub/tree • Time to bearing: 3–4 years for many varieties.</p>
+        <div class="meta">
+          <span>Climate: Tropical/subtropical highland areas (well drained laterite slopes).</span>
+          <span>Planting: plants per acre ~400 (varies).</span>
+        </div>
+      </article>
+
+      <article class="card" data-crop="tea">
+        <img src="tea.jpg" alt="Tea plantation">
+        <h2>Tea</h2>
+        <p class="small">Plant type: Plantation shrub • Time to bearing: 3–4 years after planting for commercial plucking.</p>
+        <div class="meta">
+          <span>Climate: High rainfall, acidic well drained laterite soils in hilly regions.</span>
+          <span>Planting: bushes per acre vary widely by system.</span>
+        </div>
+      </article>
+
+      <article class="card" data-crop="cassava">
+        <img src="casuva.jpeg" alt="Cassava plant">
+        <h2>Cassava / Tapioca (Manihot esculenta)</h2>
+        <p class="small">Plant type: Tuber crop • Time to harvest: 9–12 months (varies with variety & use).</p>
+        <div class="meta">
+          <span>Climate: Tropical, warm; tolerates lateritic soils when well drained.</span>
+          <span>Planting material: ~6800 setts per acre (≈17,000 setts/ha). Source: TNAU.</span>
+        </div>
+      </article>
+
+      <article class="card" data-crop="ragi">
+        <img src="ragi.jpg" alt="Finger millet">
+        <h2>Finger millet (Ragi)</h2>
+        <p class="small">Plant type: Cereal/Small millet • Time to harvest: 3–4 months (90–120 days).</p>
+        <div class="meta">
+          <span>Climate: Semi-arid to sub-humid; adapts to poorer lateritic soils.</span>
+          <span>Seed rate: ~4 kg/acre (optimum plant population ~1.6–2 lakh plants/acre). Source: millet recommendations.</span>
+        </div>
+      </article>
+
+      <article class="card" data-crop="pigeonpea">
+        <img src="pigeon.jpeg" alt="Pigeon pea">
+        <h2>Pigeon pea (Tur)</h2>
+        <p class="small">Plant type: Pulse • Time to harvest: 4–6 months (varies by variety).</p>
+        <div class="meta">
+          <span>Climate: Warm, semi-arid to sub-humid; many varieties suit drier lateritic tracts.</span>
+          <span>Seed rate: ~6 kg/acre for good yields.</span>
+        </div>
+      </article>
+
+    </section>
+
+    <section style="margin-top:18px" class="card">
+      <h2>Seed / Planting Material Calculator</h2>
+      <div class="calculator">
+        <div class="row">
+          <div>
+            <label for="cropSelect">Choose crop</label>
+            <select id="cropSelect">
+              <option value="cassava">Cassava (setts per acre)</option>
+              <option value="ragi">Finger millet (kg per acre)</option>
+              <option value="pigeonpea">Pigeon pea (kg per acre)</option>
+              <option value="cashew">Cashew (saplings per acre)</option>
+              <option value="coconut">Coconut (seedlings per acre)</option>
+              <option value="coffee">Coffee (plants per acre)</option>
+              <option value="tea">Tea (plants per acre)</option>
+            </select>
+          </div>
+          <div>
+            <label for="area">Area (in acres)</label>
+            <input id="area" type="number" min="0.01" step="0.01" value="1">
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label for="seedRate">Default seed/planting rate (auto)</label>
+            <input id="seedRate" type="text" readonly>
+          </div>
+          <div>
+            <label for="price">Seed price (per unit) — edit to your local market
+            </label>
+            <input id="price" type="number" min="0" step="0.01" value="1">
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label for="unit">Unit</label>
+            <input id="unit" type="text" readonly>
+          </div>
+          <div>
+            <label>&nbsp;</label>
+            <button id="calcBtn">Calculate</button>
+          </div>
+        </div>
+
+        <div id="results" style="padding:10px;border-radius:8px;background:#fbfbfb;border:1px dashed #e6e9ef"></div>
+
+        <p class="small">Note: Default seed/planting rates are taken from agricultural extension sources (TNAU, millet & pulse recommendations). Prices vary — please replace the seed price with a local market value for accurate cost calculations.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    Data sources referenced: TNAU, millet package recommendations, regional agriculture guides. Update "seed price" to current local prices for accurate cost estimates.
+  </footer>
+
+  <script>
+    const defaults = {
+      cassava: {rate:6800, unit:'setts/acre'},
+      ragi: {rate:4, unit:'kg/acre'},
+      pigeonpea: {rate:6, unit:'kg/acre'},
+      cashew: {rate:100, unit:'saplings/acre'},
+      coconut: {rate:140, unit:'seedlings/acre'},
+      coffee: {rate:400, unit:'plants/acre'},
+      tea: {rate:2000, unit:'bushes/acre (varies)'}
+    }
+
+    const cropSelect = document.getElementById('cropSelect');
+    const seedRate = document.getElementById('seedRate');
+    const unit = document.getElementById('unit');
+    const area = document.getElementById('area');
+    const price = document.getElementById('price');
+    const calcBtn = document.getElementById('calcBtn');
+    const results = document.getElementById('results');
+
+    function updateDefaults(){
+      const c = cropSelect.value;
+      seedRate.value = defaults[c].rate;
+      unit.value = defaults[c].unit;
+      // sensible default price examples (user should replace):
+      if(c==='cassava') price.value = 20; // per sett is not typical — user should set price per 100/1000 setts
+      else if(c==='ragi') price.value = 120; // INR per kg example
+      else if(c==='pigeonpea') price.value = 80;
+      else if(c==='cashew') price.value = 60; // per sapling example
+      else if(c==='coconut') price.value = 30;
+      else if(c==='coffee') price.value = 15;
+      else if(c==='tea') price.value = 5;
+    }
+
+    cropSelect.addEventListener('change', updateDefaults);
+    updateDefaults();
+
+    calcBtn.addEventListener('click', ()=>{
+      const c = cropSelect.value;
+      const a = parseFloat(area.value) || 0;
+      const rate = parseFloat(seedRate.value) || 0;
+      const pr = parseFloat(price.value) || 0;
+      let needed, costText;
+
+      // cassava uses setts count; others are kg or numbers
+      if(c==='cassava'){
+        needed = rate * a; // setts
+        const cost = needed * pr; // assumes price is per sett
+        costText = `You need ~${Math.round(needed).toLocaleString()} setts. Estimated cost (using price per sett = ${pr}): ₹${cost.toLocaleString()}`;
+      } else {
+        needed = rate * a;
+        const cost = needed * pr;
+        costText = `You need ${needed.toLocaleString()} ${defaults[c].unit}. Estimated cost (using price per unit = ${pr}): ₹${cost.toLocaleString()}`;
+      }
+
+      results.innerHTML = `<strong>Results for ${cropSelect.options[cropSelect.selectedIndex].text} on ${a} acre(s)</strong><p style="margin:6px 0">${costText}</p>`;
+    });
+
+    // small interactivity: clicking a crop card selects it
+    document.querySelectorAll('#cropsGrid article').forEach(card=>{
+      card.addEventListener('click', ()=>{
+        const crop = card.dataset.crop;
+        // map crop names in UI select
+        const map = {cassava:'cassava', ragi:'ragi', pigeonpea:'pigeonpea', cashew:'cashew', coconut:'coconut', coffee:'coffee', tea:'tea'};
+        cropSelect.value = map[crop] || 'cassava';
+        updateDefaults();
+        window.scrollTo({top:document.querySelector('.calculator').offsetTop - 60, behavior:'smooth'});
+      })
+    })
+  </script>
+</body>
+</html>

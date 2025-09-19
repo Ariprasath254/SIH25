@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Red Soil — Crops, Growth Info & Seed Calculator</title>
+  <style>
+    :root{
+      --accent:#b23a2b;
+      --muted:#666;
+      --card-bg:#fff;
+      --page-bg:#f7f7f7;
+      --maxw:1100px;
+    }
+    body{font-family:Arial, sans-serif;margin:0;background:var(--page-bg);color:#111}
+    .wrap{max-width:var(--maxw);margin:28px auto;padding:20px;}
+    header{display:flex;gap:18px;align-items:center}
+    .hero{
+      flex:1;
+      border-radius:10px;
+      overflow:hidden;
+      box-shadow:0 6px 18px rgba(0,0,0,0.08);
+      min-height:220px;
+      background:#eee;
+    }
+    .hero img{width:100%;height:100%;object-fit:cover;display:block}
+    h1{margin:0 0 6px;font-size:1.6rem}
+    p.lead{margin:6px 0 0;color:var(--muted)}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:20px}
+    .card{background:var(--card-bg);border-radius:10px;padding:12px;box-shadow:0 4px 12px rgba(0,0,0,0.06);display:flex;flex-direction:column}
+    .thumb{width:100%;height:160px;border-radius:8px;overflow:hidden;background:#ddd}
+    .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+    .card h3{margin:10px 0 6px;font-size:1.05rem}
+    .meta{font-size:0.95rem;color:var(--muted);margin-bottom:8px}
+    .small{font-size:0.9rem;color:#333}
+    .calc {margin-top:14px;padding-top:8px;border-top:1px dashed #eee}
+    label{display:block;font-size:0.9rem;margin:8px 0 4px}
+    input[type="number"], select {width:100%;padding:8px;border-radius:6px;border:1px solid #ddd;font-size:0.95rem}
+    button{background:var(--accent);color:#fff;border:none;padding:10px 12px;border-radius:8px;font-weight:600;margin-top:8px;cursor:pointer}
+    .result{margin-top:10px;padding:10px;border-radius:8px;background:#fbfbfb;border:1px solid #eee}
+    footer{margin-top:22px;font-size:0.9rem;color:var(--muted)}
+    .note{background:#fff3f2;color:#7a2b24;padding:8px;border-radius:8px;margin-top:10px}
+    @media (max-width:520px){.hero{min-height:150px}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div style="flex:0 0 220px">
+        <div class="hero" title="Red soil field">
+          <img src="red soil.webp" alt="Red soil field">
+        </div>
+      </div>
+      <div style="flex:1;padding-left:14px">
+        <h1>Red soil — crops, duration, climate & seed calculator</h1>
+        <p class="lead">Common crops for red soils, their growth duration & climate. Use the calculator below to estimate seed needs and cost per acre.</p>
+
+      </div>
+    </header>
+
+    <section class="grid" id="cropGrid"></section>
+
+    <section style="margin-top:20px" class="card">
+      <h3>Seed calculator</h3>
+      <div style="display:grid;grid-template-columns:1fr 160px;gap:12px;align-items:end">
+        <div>
+          <label for="cropSelect">Select crop</label>
+          <select id="cropSelect"></select>
+        </div>
+        <div>
+          <label for="acreInput">Area (acres)</label>
+          <input id="acreInput" type="number" min="0.01" step="0.01" value="1">
+        </div>
+      </div>
+
+      <div style="display:flex;gap:12px;margin-top:12px;flex-wrap:wrap">
+        <div style="flex:1;min-width:220px">
+          <label for="priceInput">Seed price (₹ per kg)</label>
+          <input id="priceInput" type="number" min="0" step="0.01">
+        </div>
+        <div style="width:200px">
+          <label>&nbsp;</label>
+          <button id="calcBtn">Calculate</button>
+        </div>
+      </div>
+
+      <div class="result" id="calcResult">Enter area and press Calculate.</div>
+    </section>
+  </div>
+
+  <script>
+  window.onload = function() {
+    const crops = [
+      {id:'groundnut', name:'Groundnut', image:'grounent.jpg', duration:'110–140 days', climate:'Warm, semi-arid to tropical', seedRate:49, price:60},
+      {id:'cotton', name:'Cotton', image:'cotten.jpg', duration:'150–180 days', climate:'Warm to hot climates', seedRate:2, price:75},
+      {id:'maize', name:'Maize', image:'maize.jpg', duration:'90–120 days', climate:'Warm, moderate rainfall', seedRate:6, price:1200},
+      {id:'soybean', name:'Soybean', image:'soyabeem.jpeg', duration:'100–130 days', climate:'Warm season', seedRate:28, price:43},
+      {id:'pigeonpea', name:'Pigeon pea', image:'pigeon.jpg', duration:'160–180 days', climate:'Semi-arid red soils', seedRate:6.5, price:80},
+      {id:'ragi', name:'Finger millet (Ragi)', image:'ragi.jpg', duration:'100–130 days', climate:'Drought tolerant', seedRate:4, price:250}
+    ];
+
+    const grid=document.getElementById('cropGrid');
+    const select=document.getElementById('cropSelect');
+    const priceInput=document.getElementById('priceInput');
+    const resultDiv=document.getElementById('calcResult');
+
+    crops.forEach(c=>{
+      const card=document.createElement('article');
+      card.className='card';
+      card.innerHTML=`
+        <div class="thumb"><img src="${c.image}" alt="${c.name}"></div>
+        <h3>${c.name}</h3>
+        <div class="meta">Duration: <strong>${c.duration}</strong> • Climate: ${c.climate}</div>
+        <div class="small">Seed rate: <strong>${c.seedRate} kg/acre</strong></div>
+      `;
+      grid.appendChild(card);
+      const opt=document.createElement('option');
+      opt.value=c.id; opt.textContent=c.name;
+      select.appendChild(opt);
+    });
+
+    function setUi(cropId){
+      const c=crops.find(x=>x.id===cropId);
+      if(!c) return;
+      priceInput.value=c.price;
+      resultDiv.innerHTML=`Selected <strong>${c.name}</strong>. Seed rate: ${c.seedRate} kg/acre. Enter area & press Calculate.`;
+    }
+    select.addEventListener('change',()=>setUi(select.value));
+    setUi(crops[0].id);
+
+    function calculate(){
+      const c=crops.find(x=>x.id===select.value);
+      const acres=parseFloat(document.getElementById('acreInput').value)||0;
+      const price=parseFloat(priceInput.value)||0;
+      if(acres<=0){resultDiv.textContent='Enter area > 0';return;}
+      const seeds=c.seedRate*acres;
+      const cost=seeds*price;
+      resultDiv.innerHTML=`
+        <strong>${c.name}</strong> for ${acres} acre(s):
+        <ul>
+          <li>Seed required: ${seeds.toFixed(2)} kg</li>
+          <li>Estimated cost: ₹ ${cost.toFixed(2)}</li>
+        </ul>`;
+    }
+    document.getElementById('calcBtn').addEventListener('click',calculate);
+  };
+  </script>
+</body>
+</html>

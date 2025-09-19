@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Saline Soil — Crops, Growth Info & Seed Calculator</title>
+  <style>
+    :root{--accent:#0b7285;--muted:#6b7280;--card:#fff;--bg:#f7fcfc}
+    body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial;margin:0;background:var(--bg);color:#0f172a}
+    header{background:linear-gradient(90deg,#e6f7f7,#f0fcfb);padding:28px 24px;box-shadow:0 2px 6px rgba(2,6,23,0.06)}
+    .container{max-width:1100px;margin:20px auto;padding:0 18px}
+    h1{margin:0 0 6px;font-size:24px;color:var(--accent)}
+    p.lead{margin:0;color:var(--muted)}
+    .grid{display:grid;grid-template-columns:1fr 360px;gap:20px;margin-top:18px}
+    .card{background:var(--card);border-radius:12px;padding:16px;box-shadow:0 6px 18px rgba(11,18,50,0.04)}
+    .crop{display:flex;gap:12px;align-items:flex-start}
+    .crop img{width:132px;height:88px;object-fit:cover;border-radius:8px}
+    .crop h3{margin:0 0 6px;font-size:18px}
+    .muted{color:var(--muted);font-size:13px}
+    table{width:100%;border-collapse:collapse;margin-top:12px}
+    table td,table th{padding:8px;border-bottom:1px solid #eef2f7;text-align:left}
+    label{display:block;font-size:13px;margin-top:10px}
+    input[type=number],input[type=text],select{width:100%;padding:8px;border-radius:8px;border:1px solid #e6eef3}
+    button{background:var(--accent);color:#fff;padding:10px 12px;border-radius:8px;border:0;margin-top:10px;cursor:pointer}
+    .small{font-size:13px;color:var(--muted)}
+    footer{max-width:1100px;margin:18px auto;padding:8px 18px;color:var(--muted);font-size:13px}
+    .note{background:#fff7ed;padding:10px;border-radius:8px;margin-top:10px;color:#7a4a00}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>Saline Soil — Crops, Growth Info & Seed Calculator</h1>
+      <p class="lead">Common salt‑tolerant crops, approximate growth duration, climate notes and an interactive seed calculator (enter current seed price to compute cost per acre).</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="grid">
+      <section>
+        <div class="card">
+          <h2 style="margin-top:0">Recommended salt‑tolerant crops (short list)</h2>
+          <p class="small">These crops are commonly recommended for saline soils or salt‑affected sites. Use local extension/advisory before planting — salinity tolerance varies by variety and local conditions.</p>
+
+          <!-- Crop cards: image URLs are examples from Wikimedia Commons. If you want the direct image file links, open the Wikimedia pages below and copy the file URL. -->
+
+          <div style="margin-top:12px;display:grid;gap:12px">
+
+            <div class="card crop">
+              <img src="Barley.webp" alt="Barley field">
+              <div>
+                <h3>Barley</h3>
+                <div class="muted">Seed rate: <strong>35–40 kg/acre</strong> (typical). Maturity: <strong>90–120 days</strong>. Climate: cool temperate to semi‑arid; tolerant of moderate salinity — often used as a rotation/cover crop on saline soils.</div>
+              </div>
+            </div>
+
+            <div class="card crop">
+              <img src="quinoaplant.jpg" alt="Quinoa">
+              <div>
+                <h3>Quinoa</h3>
+                <div class="muted">Seed rate: <strong>2–4 kg/acre</strong> (broadcast/varies with variety). Maturity: <strong>90–160 days</strong>. Climate: adaptable (cool to temperate); many lines show strong salt tolerance and are used on marginal soils.</div>
+              </div>
+            </div>
+
+            <div class="card crop">
+              <img src="Salicornia_.jpeg" alt="Salicornia (glasswort)">
+              <div>
+                <h3>Salicornia / Glasswort (halophyte)</h3>
+                <div class="muted">Seed rate: small — nursery/transplant systems used. Maturity: perennial/annual types. Climate: coastal saline marshes — true halophyte that thrives in high salinity (specialty crop for forage, oil, or saline‑water irrigation).</div>
+              </div>
+            </div>
+
+            <div class="card crop">
+              <img src="saline-soil.webp" alt="Saline soil">
+              <div>
+                <h3>Rice (salt‑tolerant varieties)</h3>
+                <div class="muted">Seed rate: <strong>20–30 kg/acre (seedling/transplant vs direct sow)</strong>. Maturity: <strong>100–160 days</strong>. Climate: paddy/rainfed coastal areas — specialized salt‑tolerant varieties are grown in reclaimed coastal/sodic fields.</div>
+              </div>
+            </div>
+
+            <div class="card crop">
+              <img src="cotten.jpg" alt="Cotton field">
+              <div>
+                <h3>Cotton</h3>
+                <div class="muted">Seed rate: variety & planting method dependent — follow seed packet. Climate: semi‑arid to subtropical; some varieties show moderate salinity tolerance. Often used where other crops fail.</div>
+              </div>
+            </div>
+
+            <div class="card crop">
+              <img src="date plan.webp" alt="Date palm">
+              <div>
+                <h3>Date palm & some fruit trees (pomegranate, olive)</h3>
+                <div class="muted">Long‑term perennial options: date palm is relatively salt‑tolerant; olives and pomegranate show moderate tolerance in many regions (best for coastal/brackish groundwater situations).</div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="note">Note: This is a curated short list — many other forages, halophytes and select varieties work on saline sites. Check local extension recommendations and test soil salinity (EC) before choosing species.</div>
+        </div>
+
+        <div class="card" style="margin-top:14px">
+          <h2 style="margin-top:0">Saline soil basics</h2>
+          <p class="small">Saline soils contain excessive soluble salts (measured as electrical conductivity, EC). Management options include selecting salt‑tolerant crops/varieties, improving drainage and leaching salts (if water quality allows), and using halophytic species for reclamation. For technical guidance see FAO and extension publications.</p>
+        </div>
+
+      </section>
+
+      <aside>
+        <div class="card">
+          <h2>Seed Calculator (per acre)</h2>
+
+          <label for="cropSelect">Choose crop</label>
+          <select id="cropSelect">
+            <option value="barley" data-rate="37">Barley — 35–40 kg/acre (default 37)</option>
+            <option value="quinoa" data-rate="3">Quinoa — 2–4 kg/acre (default 3)</option>
+            <option value="rice" data-rate="25">Rice (transplant) — 20–30 kg/acre (default 25)</option>
+            <option value="cotton" data-rate="6">Cotton (seed packets vary) — use price/kg (default 6)</option>
+            <option value="salicornia" data-rate="0.5">Salicornia (specialty) — small nursery rates (default 0.5)</option>
+          </select>
+
+          <label for="seedRate">Seed rate (kg/acre) — editable</label>
+          <input id="seedRate" type="number" step="0.1" />
+
+          <label for="seedPrice">Seed price (<em>per kg</em>) — enter your current market price (₹ or your currency)</label>
+          <input id="seedPrice" type="number" step="0.01" placeholder="e.g. 120" />
+
+          <button id="calcBtn">Calculate seed required & cost</button>
+
+          <div style="margin-top:12px">
+            <table>
+              <tr><th>Value</th><th>Result</th></tr>
+              <tr><td>Seed required (kg / acre)</td><td id="outKg">—</td></tr>
+              <tr><td>Cost of seed (per acre)</td><td id="outCost">—</td></tr>
+              <tr><td>Cost per hectare (approx)</td><td id="outCostHa">—</td></tr>
+            </table>
+          </div>
+
+          <div class="small" style="margin-top:8px">Tip: Seed prices vary by variety, certification (certified / hybrid / Bt), and country/region. Enter the price per kg for accurate cost estimates.</div>
+        </div>
+
+        <div class="card" style="margin-top:12px">
+          <h3 style="margin:0">Quick reference / links</h3>
+          <ul class="small">
+            <li>FAO salt tolerance list & guidance — good reference for tolerance rankings.</li>
+            <li>Local ag extension — for region-specific varieties and seed recommendations.</li>
+            <li>Test soil EC before planting; results guide crop choice and remediation steps.</li>
+          </ul>
+        </div>
+
+      </aside>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">Sources used to prepare this page: FAO salt tolerance tables; USDA/NRCS plant materials; academic & extension publications on saline soils; market price reports consulted for seed-price examples. See chat reply for direct citations used.</div>
+  </footer>
+
+  <script>
+    // init
+    const cropSelect = document.getElementById('cropSelect');
+    const seedRate = document.getElementById('seedRate');
+    const seedPrice = document.getElementById('seedPrice');
+    const calcBtn = document.getElementById('calcBtn');
+    const outKg = document.getElementById('outKg');
+    const outCost = document.getElementById('outCost');
+    const outCostHa = document.getElementById('outCostHa');
+
+    function setDefaults(){
+      const opt = cropSelect.selectedOptions[0];
+      seedRate.value = opt.dataset.rate || 0;
+    }
+    setDefaults();
+    cropSelect.addEventListener('change', setDefaults);
+
+    calcBtn.addEventListener('click', ()=>{
+      const kg = parseFloat(seedRate.value) || 0;
+      const price = parseFloat(seedPrice.value) || 0;
+      const cost = (kg * price);
+      outKg.textContent = kg.toFixed(2) + ' kg';
+      outCost.textContent = cost>0 ? (cost.toFixed(2) + ' (per acre)') : 'Enter seed price';
+      outCostHa.textContent = cost>0 ? ((cost/0.404686).toFixed(2) + ' per hectare approx') : '—';
+    });
+  </script>
+</body>
+</html>

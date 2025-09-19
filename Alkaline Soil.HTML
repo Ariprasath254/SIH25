@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Alkaline Soil — Crops, Growth Info & Seed Calculator</title>
+  <style>
+    :root{--accent:#2a7f62;--muted:#6b7280;--card:#fff;--bg:#f6fbf9}
+    body{font-family:Inter,ui-sans-serif,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial;padding:24px;background:var(--bg);color:#0f172a}
+    .container{max-width:980px;margin:0 auto}
+    header{display:flex;gap:20px;align-items:center}
+    header img{width:120px;height:80px;object-fit:cover;border-radius:8px;box-shadow:0 6px 18px rgba(15,23,42,0.06)}
+    h1{margin:0;font-size:1.6rem}
+    .grid{display:grid;grid-template-columns:1fr 360px;gap:18px;margin-top:18px}
+    .card{background:var(--card);padding:18px;border-radius:10px;box-shadow:0 6px 18px rgba(15,23,42,0.04)}
+    .crop{display:flex;gap:12px;align-items:center}
+    .crop img{width:96px;height:64px;object-fit:cover;border-radius:6px}
+    dt{font-weight:700}
+    .muted{color:var(--muted);font-size:0.95rem}
+    label{display:block;margin-top:8px;font-weight:600}
+    input[type=number],input[type=text],select{width:100%;padding:8px;border-radius:6px;border:1px solid #e6e9ee;margin-top:6px}
+    button{background:var(--accent);color:#fff;padding:10px 12px;border-radius:8px;border:0;margin-top:10px;cursor:pointer}
+    .result{background:#f8fff9;padding:10px;border-radius:8px;margin-top:8px}
+    footer{margin-top:26px;text-align:center;color:var(--muted);font-size:0.9rem}
+    /* Responsive */
+    @media(max-width:900px){.grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <!-- Replace header image URL with an actual alkaline soil image from a trusted source -->
+      <img src="Alkaline soil.jpeg" alt="Alkaline soil pH test"/>
+      <div>
+        <h1>Alkaline Soil — Crops, Growth Info & Seed Calculator</h1>
+        <div class="muted">Crops that tolerate alkaline soils, growth duration, climate notes and a seed calculator (per acre)</div>
+      </div>
+    </header>
+
+    <div class="grid">
+      <main>
+        <section class="card">
+          <h2>What is alkaline soil?</h2>
+          <p class="muted">Alkaline (calcareous) soils have pH &gt; 7.0. High pH can lock out nutrients such as iron, manganese and phosphorus. Some crops tolerate alkaline conditions better than others — below are common choices.</p>
+        </section>
+
+        <section class="card" style="margin-top:14px">
+          <h2>Recommended crops for alkaline soils</h2>
+
+          <div style="display:grid;gap:12px;margin-top:12px">
+            <div class="crop">
+              <img src="Barley.webp" alt="Barley"/>
+              <div>
+                <div style="font-weight:700">Barley</div>
+                <div class="muted">Growth: 90–120 days; Climate: cool-season (rabi/winter in India). Seed rate (default): 35–45 kg/acre.</div>
+              </div>
+            </div>
+
+            <div class="crop">
+              <img src="Alfalfa-forage-crop.webp" alt="Alfalfa (Lucerne)"/>
+              <div>
+                <div style="font-weight:700">Alfalfa (Lucerne)</div>
+                <div class="muted">Growth: perennial (first establishment 60–90 days); Climate: temperate to subtropical. Seed rate (default): ~8–10 kg/acre (for pure stand).</div>
+              </div>
+            </div>
+
+            <div class="crop">
+              <img src="sugar-beets.webp" alt="Sugar beet"/>
+              <div>
+                <div style="font-weight:700">Sugar beet</div>
+                <div class="muted">Growth: 120–180 days; Climate: cool-season; Seed rate: pelleted seeds, very low kg weight (usually quoted as number of pelleted seeds per hectare — convert in calculator).</div>
+              </div>
+            </div>
+
+            <div class="crop">
+              <img src="pearl.jpeg" alt="Pearl millet (Bajra)"/>
+              <div>
+                <div style="font-weight:700">Pearl millet (Bajra)</div>
+                <div class="muted">Growth: 60–90 days; Climate: hot, arid/semi-arid (kharif). Seed rate: 4–5 kg/acre (small-seeded crop).</div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <section class="card" style="margin-top:14px">
+          <h2>Notes on climate & soil management</h2>
+          <ul class="muted">
+            <li>Alkaline soils often have calcium carbonate; drainage and organic matter help improve nutrient availability.</li>
+            <li>Iron and zinc deficiencies are common in high-pH soils — foliar micronutrient sprays or soil sulfur/organic matter can help.</li>
+            <li>Always confirm with a soil test (pH and EC) before major amendments.</li>
+          </ul>
+        </section>
+
+      </main>
+
+      <aside>
+        <div class="card">
+          <h3>Seed calculator — per acre</h3>
+          <label for="crop">Crop</label>
+          <select id="crop">
+            <option value="barley" data-seedrate="40" data-price="40">Barley</option>
+            <option value="alfalfa" data-seedrate="9" data-price="2500">Alfalfa (Lucerne)</option>
+            <option value="sugarbeet" data-seedrate="3.6" data-price="50">Sugar beet (pelleted equivalent kg)</option>
+            <option value="bajra" data-seedrate="4.5" data-price="80">Pearl millet (Bajra)</option>
+          </select>
+
+          <label for="area">Area (acres)</label>
+          <input id="area" type="number" value="1" min="0.01" step="0.01" />
+
+          <label for="seedPrice">Seed price (₹ per kg) — override market default</label>
+          <input id="seedPrice" type="number" value="" placeholder="Leave blank to use default market price" />
+
+          <button id="calc">Calculate seed needed & cost</button>
+
+          <div id="out" class="result" style="display:none"></div>
+
+          <div style="margin-top:12px;color:var(--muted);font-size:0.9rem">
+            <strong>Defaults used (editable):</strong>
+            <ul style="margin:6px 0 0 18px">
+              <li>Barley seed rate: 35–45 kg/acre (default set 40 kg). Source examples: extension guides.</li>
+              <li>Alfalfa seed rate: ~8–10 kg/acre (default set 9 kg).</li>
+              <li>Sugar beet: seeds are pelleted; typical recommendation ~3.6 kg/acre (pelleted seeds count).</li>
+              <li>Pearl millet (bajra): 4–5 kg/acre (default 4.5 kg).</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:14px">
+          <h3>Quick references</h3>
+          <p class="muted">The calculator uses common seed-rate defaults and market price placeholders. Replace prices with live quotes from your local supplier when planning purchases.</p>
+        </div>
+      </aside>
+    </div>
+
+    <footer>
+      Made with ❤️ — replace image URLs with your preferred verified images. This page includes a client-side seed calculator you can adapt.
+    </footer>
+  </div>
+
+  <script>
+    // Seed calculator logic
+    function fmt(n){return Number(n).toLocaleString('en-IN')}
+    document.getElementById('calc').addEventListener('click',()=>{
+      const cropSel = document.getElementById('crop');
+      const opt = cropSel.options[cropSel.selectedIndex];
+      const seedRate = parseFloat(opt.dataset.seedrate); // kg per acre default
+      const defaultPrice = parseFloat(opt.dataset.price);
+      const area = parseFloat(document.getElementById('area').value) || 0;
+      const overridePrice = parseFloat(document.getElementById('seedPrice').value);
+      const pricePerKg = isFinite(overridePrice) && overridePrice>0 ? overridePrice : defaultPrice;
+
+      const totalSeedKg = seedRate * area;
+      const totalCost = totalSeedKg * pricePerKg;
+
+      const out = document.getElementById('out');
+      out.style.display='block';
+      out.innerHTML = `<strong>${opt.text}</strong><br>
+        Area: ${area} acre(s)<br>
+        Seed rate used: ${seedRate} kg/acre<br>
+        Total seed required: ${fmt(totalSeedKg)} kg<br>
+        Price used: ₹ ${fmt(pricePerKg)} per kg<br>
+        <div style="margin-top:6px">Estimated seed cost: <strong>₹ ${fmt(totalCost)}</strong></div>`;
+    })
+  </script>
+</body>
+</html>
